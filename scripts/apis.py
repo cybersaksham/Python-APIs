@@ -165,7 +165,7 @@ def sendEmail(from_email, to_email, password, subject, message):
     try:
         from email.mime.text import MIMEText
         import smtplib
-        msg = MIMEText(message, "plain")
+        msg = MIMEText(message, "html")
         msg["Subject"] = subject
         msg["To"] = to_email
         msg["From"] = from_email
