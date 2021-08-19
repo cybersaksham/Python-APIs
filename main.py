@@ -99,5 +99,20 @@ def mob_trace():
         return jsonify(response=response, error=error)
 
 
+@app.route('/get_age', methods=["GET"])
+def get_age():
+    if request.method == "GET":
+        try:
+            day__ = int(request.args.get("day"))
+            month__ = int(request.args.get("month"))
+            year__ = int(request.args.get("year"))
+            res__, err__ = apis.get_age(day__, month__, year__)
+            return jsonify(age=res__, error=err__)
+        except ValueError:
+            return jsonify(age=None, error="INCORRECT")
+        except:
+            return jsonify(age=None, error="INTERNAL")
+
+
 if __name__ == '__main__':
     app.run()

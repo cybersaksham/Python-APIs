@@ -138,6 +138,18 @@ apis = [
             },
         }
     },
+    {
+        endpoint: "/get_age",
+        desc: "Find age of a person",
+        req: {
+            get_req: {
+                inp: {"day": "Date from 1 to 31", "month": "Month from 1 to 12", "year": "Year of birth"},
+                out: {"age": "Age in years", "error": "Error if any"},
+                err: {"INTERNAL": "Internal Server Error",
+                      "INCORRECT": "Incorrect arguments given"},
+            },
+        }
+    },
 ]
 
 
@@ -320,3 +332,28 @@ def mob_trace(mob):
             return [None, "SERVER"]
     except:
         return [None, "INTERNAL"]
+
+
+# get_age
+def get_age(day, month, year):
+    res__, err__ = [None, None]
+    try:
+        from datetime import datetime
+        year_diff__ = datetime.now().year - year
+        if 1 <= day <= 31 and 1 <= month <= 12:
+            if month > datetime.now().month:
+                year_diff__ -= 1
+            elif month == datetime.now().month:
+                if day > datetime.now().day:
+                    year_diff__ -= 1
+            if year_diff__ >= 0:
+                res__ = year_diff__
+            else:
+                err__ = "INCORRECT"
+        else:
+            err__ = "INCORRECT"
+    except TypeError:
+        err__ = "INCORRECT"
+    except:
+        err__ = "INTERNAL"
+    return [None if err__ is not None else res__, err__]
